@@ -6,14 +6,11 @@ require('dotenv').config();
 // Initialize the Express app
 const app = express();
 
-// Middleware - Updated CORS to allow your live domains
+// Middleware - Updated CORS to allow your live domains and admin passcode header
 app.use(cors({
-    origin: [
-        'http://localhost:5173',           // For local testing (React/Vite default)
-        'https://www.happyyhealinghub.in', // Your live WWW domain
-        'https://happyyhealinghub.in'      // Your live root domain
-    ],
-    credentials: true
+    origin: '*', // Allows your Vercel frontend to connect
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'x-admin-passcode'] // 👈 THIS IS THE FIX
 }));
 
 app.use(express.json()); 
@@ -34,7 +31,6 @@ app.get('/', (req, res) => {
   res.send('PhysioCare Backend is running smoothly!');
 });
 
-// Define the port 
 // Define the port 
 const PORT = process.env.PORT || 5000;
 
