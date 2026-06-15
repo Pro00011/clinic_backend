@@ -68,4 +68,24 @@ router.post('/new', async (req, res) => {
   }
 });
 
+// 7. GET Route to fetch all bookings (Protected by Passcode)
+router.get('/all', async (req, res) => {
+  try {
+    // Check if the frontend sent the correct passcode in the headers
+    const clientPasscode = req.headers['x-admin-passcode'];
+    
+    if (!clientPasscode || clientPasscode !== process.env.ADMIN_PASSCODE) {
+      return res.status(401).json({ message: 'Unauthorized: Invalid Admin Passcode' });
+    }
+
+    // If passcode matches, fetch bookings (newest first)
+    const bookings = await Booking.find().sort({ _id: -1 });
+    res.status(200).json(bookings);
+
+  } catch (error) {
+    console.error("❌ Error fetching bookings:", error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;
