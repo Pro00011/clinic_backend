@@ -31,7 +31,7 @@ router.post('/new', async (req, res) => {
 
     
     const clinicMsg = {
-   to: process.env.CLINIC_EMAIL || 'admin@happyyhealinghub.in', 
+   to: process.env.CLINIC_EMAIL || 'dr.sachin@happyyhealinghub.in', 
   from: process.env.FROM_EMAIL,
   subject: `🚨 New Patient Booking: ${req.body.name}`,
   html: `
